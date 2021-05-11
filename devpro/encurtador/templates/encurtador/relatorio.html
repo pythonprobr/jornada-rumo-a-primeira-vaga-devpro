@@ -1,0 +1,177 @@
+{% load static %}
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="generator" content="">
+    <title>URL Reduce</title>
+   
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+    <!-- Bootstrap core CSS -->
+    
+    <link href="{% static 'encurtador/assets/css/style.css' %}" rel="stylesheet">
+  </head>
+  <body class="text-center">
+    <div class="container">
+      <div class="row">
+        <div class="offset-sm-1 col-sm-10">
+          <h1 class="font-weight-bold">URL<span class="font-weight-light color-y">Reduce</span></h1>
+          <p class="h5 mb-5 text-muted">Encurtador de URL</p>
+
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="offset-sm-1 col-sm-10 text-left text-muted">
+          <p>Criado em {% now "d \d\e F \d\e Y, H:i\H" %}</p>
+          <h5>Original: <a href="{{reduce.destino}}" class="color-y">{{reduce.destino}}</a></h5>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="offset-sm-1 col-sm-10 text-left text-muted">
+          <h3>Reduzido: <a href="{{url_reduzida}}" class="color-y">{{url_reduzida}}</a></h3>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="offset-sm-1 col-sm-10 text-left">
+          <button class="btn btn-outline-primary">COPY</button>
+          <button class="btn btn-outline-primary">SHARE</button>
+        </div>
+      </div>
+
+      <h2 class="font-weight-bold mt-5">Total de Cliques: <span class="color-y">390</span></h2>
+      <p class="text-muted">Gráfico de Cliques por Dia</p> 
+      <div class="row mt-3">
+        <div class="offset-sm-1 col-sm-10">
+
+          <!-- Gráfico -->
+          <div class="card">
+              <canvas id="multipleBarChart"></canvas>
+          </div>
+          <!-- Gráfico -->
+
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="offset-sm-1 col-sm-10 mt-5">
+          
+            <!-- Tabela -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title font-weight-bold mb-3">Cliques por Dia</h3>
+                </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th class="text-left">Dias da Semana</th>
+                                        <th>Total de Clique</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr title="QTD de Cliques no Domingo">
+                                        <td class="text-left">Domingo</td>
+                                        <td>100</td>
+                                    </tr>
+                                    <tr title="QTD de Cliques na Segunda-Feira">
+                                        <td class="text-left">Segunda-Feira</td>
+                                        <td>30</td>
+                                    </tr>
+                                    <tr title="QTD de Cliques na Terça-Feira">
+                                        <td class="text-left">Terça-Feira</td>
+                                        <td>60</td>
+                                    </tr>
+                                    <tr title="QTD de Cliques na Quarta-Feira">
+                                        <td class="text-left">Quarta-Feira</td>
+                                        <td>30</td>
+                                    </tr>
+                                    <tr title="QTD de Cliques na Quinta-Feira">
+                                        <td class="text-left">Quinta-Feira</td>
+                                        <td>50</td>
+                                    </tr>
+                                    <tr title="QTD de Cliques na Sexta-Feira">
+                                        <td class="text-left">Sexta-Feira</td>
+                                        <td>90</td>
+                                    </tr>
+                                    <tr title="QTD de Cliques no Sábado">
+                                        <td class="text-left">Sábado</td>
+                                        <td>30</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+            </div>
+            <!-- Tabela -->
+
+        </div>
+    </div>
+
+      <p class="mt-5 text-muted"><span class="color-y">&copy;</span> 2021 - Jornada Rumo a Primeira Vaga | URL<span class="color-y">Reduce</span></p>
+      <br />
+    </div>
+    
+    <!-- Bootstrap core JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap core JS -->
+    
+    <!-- Lib Chart JS -->
+    <script src="{% static 'encurtador/assets/js/chart.js/chart.min.js' %}"></script>
+    <!-- Lib Chart JS -->
+    
+    <!-- Gráfico -->
+    <script>
+      let multipleBarChart = document.getElementById('multipleBarChart').getContext('2d')
+
+      let myMultipleBarChart = new Chart(multipleBarChart, {
+          type: 'bar',
+
+          // Como usar a Lib ChartJS com Django -> https://medium.com/code-rocket-blog/trabalhando-com-gr%C3%A1ficos-no-django-usando-chart-js-495aa6abbe0f 
+
+          data: {
+              labels: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"],
+              datasets: [{
+                  label: "Total de Cliques por Dia",
+                  backgroundColor: '#005490',
+                  borderColor: '#005490',
+                  data: [100, 30, 60, 30, 50, 90, 30],
+              }],
+          },
+          options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              legend: {
+                  position: 'bottom'
+              },
+              title: {
+                  display: true,
+                  //text: 'Gráfico de Cliques por Dia'
+              },
+              tooltips: {
+                  mode: 'index',
+                  intersect: false
+              },
+              responsive: true,
+              scales: {
+                  xAxes: [{
+                      stacked: true,
+                  }],
+                  yAxes: [{
+                      stacked: true
+                  }]
+              }
+          }
+      });
+    </script>
+    <!-- Gráfico -->
+  </body>
+</html>

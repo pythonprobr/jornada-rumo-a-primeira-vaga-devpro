@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;900&display=swap');
+
+html, body {font-family: 'Roboto', sans-serif; height: 100%;}
+body {align-items: center; background-color: #005490; padding-top: 40px; padding-bottom: 40px; -ms-flex-align: center;}
+.reduce-main {display: -ms-flexbox; display: flex;}
+
+/* Seleção com mouse */
+:-moz-selection {color:#fff; background:#FFC203;}
+::selection {color:#fff; background:#FFC203;}
+/* Seleção com mouse */
+
+h1 {font-size: 50px;}
+h1, h2, .text-muted { color: #fff !important;}
+.color-y{color:#FFC203}
+.color-y:hover{color: #FFC203; text-decoration: none;}
+.input-group-lg>.form-control:not(textarea) {height: calc(1.5em + 1rem + 30px);}
+.btn-outline-primary{border-color: #fff; color:#fff;}
+.btn-lg {padding: 1.5rem 1rem;}
+.panel {background-color: #fff; padding: 20px; border-radius: 4px;}
+th,td {color:#888;}
+.panel-title {color:#005490;}
+
+
+@media (max-width: 768px) {
+  .input-group-lg {margin-bottom: 20px;}
+  .text-muted {font-size: 14px;}
+}
