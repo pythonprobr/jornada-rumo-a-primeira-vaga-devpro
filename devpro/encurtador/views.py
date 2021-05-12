@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from devpro.encurtador.models import UrlRedirect
+from devpro.encurtador.models import UrlRedirect, UrlLog
 
 
 def relatorios(requisicao, slug):
@@ -17,4 +17,11 @@ def relatorios(requisicao, slug):
 
 def redirecionar(requisicao, slug):
     url_redirect = UrlRedirect.objects.get(slug=slug)
+    UrlLog.objects.create(
+        origem=requisicao.META.get('TTP_REFERER'),
+        user_agent=requisicao.META.get('HTTP_USER_AGENT'),
+        host=requisicao.META.get('HTTP_HOST'),
+        ip=requisicao.META.get('REMOTE_ADDR'),
+        url_redirect=url_redirect
+    )
     return redirect(url_redirect.destino)
