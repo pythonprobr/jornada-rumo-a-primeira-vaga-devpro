@@ -45,7 +45,7 @@
         </div>
       </div>
 
-      <h2 class="font-weight-bold mt-5">Total de Cliques: <span class="color-y">390</span></h2>
+      <h2 class="font-weight-bold mt-5">Total de Cliques: <span class="color-y">{{ total_cliques }}</span></h2>
       <p class="text-muted">Gráfico de Cliques por Dia</p> 
       <div class="row mt-3">
         <div class="offset-sm-1 col-sm-10">
@@ -72,39 +72,17 @@
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th class="text-left">Dias da Semana</th>
+                                        <th class="text-left">Data</th>
                                         <th>Total de Clique</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr title="QTD de Cliques no Domingo">
-                                        <td class="text-left">Domingo</td>
-                                        <td>100</td>
+                                {% for r in redirecionamentos_por_data %}
+                                    <tr title="QTD de Cliques em {{ r.data }}">
+                                        <td class="text-left">{{ r.data }}</td>
+                                        <td>{{ r.cliques }}</td>
                                     </tr>
-                                    <tr title="QTD de Cliques na Segunda-Feira">
-                                        <td class="text-left">Segunda-Feira</td>
-                                        <td>30</td>
-                                    </tr>
-                                    <tr title="QTD de Cliques na Terça-Feira">
-                                        <td class="text-left">Terça-Feira</td>
-                                        <td>60</td>
-                                    </tr>
-                                    <tr title="QTD de Cliques na Quarta-Feira">
-                                        <td class="text-left">Quarta-Feira</td>
-                                        <td>30</td>
-                                    </tr>
-                                    <tr title="QTD de Cliques na Quinta-Feira">
-                                        <td class="text-left">Quinta-Feira</td>
-                                        <td>50</td>
-                                    </tr>
-                                    <tr title="QTD de Cliques na Sexta-Feira">
-                                        <td class="text-left">Sexta-Feira</td>
-                                        <td>90</td>
-                                    </tr>
-                                    <tr title="QTD de Cliques no Sábado">
-                                        <td class="text-left">Sábado</td>
-                                        <td>30</td>
-                                    </tr>
+                                {% endfor %}
                                 </tbody>
                             </table>
                         </div>
@@ -138,12 +116,28 @@
           // Como usar a Lib ChartJS com Django -> https://medium.com/code-rocket-blog/trabalhando-com-gr%C3%A1ficos-no-django-usando-chart-js-495aa6abbe0f 
 
           data: {
-              labels: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"],
+              labels: [
+                {% for r in redirecionamentos_por_data %}
+                    {% if forloop.counter == 1 %}
+                    "{{ r.data }}"
+                    {% else %}
+                    , "{{ r.data }}"
+                    {% endif %}
+                {% endfor %}
+                ],
               datasets: [{
                   label: "Total de Cliques por Dia",
                   backgroundColor: '#005490',
                   borderColor: '#005490',
-                  data: [100, 30, 60, 30, 50, 90, 30],
+                  data: [
+                  {% for r in redirecionamentos_por_data %}
+                    {% if forloop.counter == 1 %}
+                    {{ r.cliques }}
+                    {% else %}
+                    , {{ r.cliques }}
+                    {% endif %}
+                {% endfor %}
+                  ],
               }],
           },
           options: {
